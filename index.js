@@ -1,11 +1,36 @@
-var botones = document.querySelectorAll("button");
+//Se activa el sonido con un click
 
+var botones = document.querySelectorAll("button"); //Selecciona todos los "button"
 
-function BotonClick(){
+function BotonClick(){ //función que llana a cada botón
 
     var botonInnerHTML = this.innerHTML;
 
-    switch (botonInnerHTML) {
+    sonidos(botonInnerHTML); //Llama a la función Sonidos
+
+    BotonesAnimacion(botonInnerHTML);
+
+}
+
+botones.forEach((boton) => {
+    boton.addEventListener("click", BotonClick); //Cuando se hace click en un botón su respectivo sonido se activa
+});
+
+
+
+//Se activa el sonido con la tecla
+
+document.addEventListener("keydown", function(event){ //Detecta cuando se presiona una tecla
+
+    sonidos(event.key); //Activa la función sonidos con su respectiva tecla
+
+    BotonesAnimacion(event.key);
+    
+});
+
+function sonidos(key){
+
+    switch (key) {
         case "w":
              var tom1 = new Audio("sounds/tom-1.mp3");
              tom1.play();
@@ -43,10 +68,17 @@ function BotonClick(){
             
         default: console.log(botonInnerHTML)
     }
+
 }
 
-botones.forEach((boton) => {
-    boton.addEventListener("click", BotonClick);
-});
+function BotonesAnimacion(letra){
 
+    var LetraUsada = document.querySelector("." + letra);
 
+    LetraUsada.classList.add("pressed");
+
+    setTimeout(function(){
+        LetraUsada.classList.remove("pressed");
+    }, 100);
+
+}
